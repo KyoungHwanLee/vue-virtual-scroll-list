@@ -52,8 +52,8 @@ export const VirtualProps = {
     type: Boolean,
     default: false
   },
-  scrollContainerDOM: {
-    type: Object,
+  scrollContainerSelector: {
+    type: String,
     default: null
   },
   rootTag: {

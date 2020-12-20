@@ -462,8 +462,8 @@
       type: Boolean,
       "default": false
     },
-    scrollContainerDOM: {
-      type: Object,
+    scrollContainerSelector: {
+      type: String,
       "default": null
     },
     rootTag: {
@@ -663,6 +663,15 @@
       return {
         range: null
       };
+    },
+    computed: {
+      scrollContainerDOM: function scrollContainerDOM() {
+        if (this.scrollContainerSelector) {
+          return document.querySelector(this.scrollContainerSelector);
+        }
+
+        return null;
+      }
     },
     watch: {
       'dataSources.length': function dataSourcesLength() {

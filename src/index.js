@@ -25,6 +25,15 @@ const VirtualList = Vue.component('virtual-list', {
     }
   },
 
+  computed: {
+    scrollContainerDOM () {
+      if (this.scrollContainerSelector) {
+        return document.querySelector(this.scrollContainerSelector)
+      }
+      return null
+    }
+  },
+
   watch: {
     'dataSources.length' () {
       this.virtual.updateParam('uniqueIds', this.getUniqueIdFromDataSources())
