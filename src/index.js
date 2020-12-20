@@ -112,7 +112,7 @@ const VirtualList = Vue.component('virtual-list', {
       if (this.pageMode) {
         return document.documentElement[this.directionKey] || document.body[this.directionKey]
       } else if (this.scrollContainerDOM) {
-        return this.scrollContainerDOM[this.directionKey];
+        return this.scrollContainerDOM[this.directionKey]
       } else {
         const { root } = this.$refs
         return root ? Math.ceil(root[this.directionKey]) : 0
@@ -125,7 +125,7 @@ const VirtualList = Vue.component('virtual-list', {
       if (this.pageMode) {
         return document.documentElement[key] || document.body[key]
       } else if (this.scrollContainerDOM) {
-        return this.scrollContainerDOM[key];
+        return this.scrollContainerDOM[key]
       } else {
         const { root } = this.$refs
         return root ? Math.ceil(root[key]) : 0
@@ -138,7 +138,7 @@ const VirtualList = Vue.component('virtual-list', {
       if (this.pageMode) {
         return document.documentElement[key] || document.body[key]
       } else if (this.scrollContainerDOM) {
-        return this.scrollContainerDOM[key];
+        return this.scrollContainerDOM[key]
       } else {
         const { root } = this.$refs
         return root ? Math.ceil(root[key]) : 0
@@ -151,7 +151,7 @@ const VirtualList = Vue.component('virtual-list', {
         document.body[this.directionKey] = offset
         document.documentElement[this.directionKey] = offset
       } else if (this.scrollContainerDOM) {
-        this.scrollContainerDOM[this.directionKey] = offset;
+        this.scrollContainerDOM[this.directionKey] = offset
       } else {
         const { root } = this.$refs
         if (root) {

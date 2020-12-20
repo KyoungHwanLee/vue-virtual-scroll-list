@@ -462,6 +462,10 @@
       type: Boolean,
       "default": false
     },
+    scrollContainerDOM: {
+      type: Element,
+      "default": null
+    },
     rootTag: {
       type: String,
       "default": 'div'
@@ -705,6 +709,10 @@
         document.addEventListener('scroll', this.onScroll, {
           passive: false
         });
+      } else if (this.scrollContainerDOM) {
+        this.scrollContainerDOM.addEventListener('scroll', this.onScroll, {
+          passive: false
+        });
       }
     },
     beforeDestroy: function beforeDestroy() {
@@ -712,6 +720,8 @@
 
       if (this.pageMode) {
         document.removeEventListener('scroll', this.onScroll);
+      } else if (this.scrollContainerDOM) {
+        this.scrollContainerDOM.removeEventListener('scroll', this.onScroll);
       }
     },
     methods: {
@@ -727,6 +737,8 @@
       getOffset: function getOffset() {
         if (this.pageMode) {
           return document.documentElement[this.directionKey] || document.body[this.directionKey];
+        } else if (this.scrollContainerDOM) {
+          return this.scrollContainerDOM[this.directionKey];
         } else {
           var root = this.$refs.root;
           return root ? Math.ceil(root[this.directionKey]) : 0;
@@ -738,6 +750,8 @@
 
         if (this.pageMode) {
           return document.documentElement[key] || document.body[key];
+        } else if (this.scrollContainerDOM) {
+          return this.scrollContainerDOM[key];
         } else {
           var root = this.$refs.root;
           return root ? Math.ceil(root[key]) : 0;
@@ -749,6 +763,8 @@
 
         if (this.pageMode) {
           return document.documentElement[key] || document.body[key];
+        } else if (this.scrollContainerDOM) {
+          return this.scrollContainerDOM[key];
         } else {
           var root = this.$refs.root;
           return root ? Math.ceil(root[key]) : 0;
@@ -759,6 +775,8 @@
         if (this.pageMode) {
           document.body[this.directionKey] = offset;
           document.documentElement[this.directionKey] = offset;
+        } else if (this.scrollContainerDOM) {
+          this.scrollContainerDOM[this.directionKey] = offset;
         } else {
           var root = this.$refs.root;
 
@@ -939,6 +957,7 @@
           padBehind = _this$range2.padBehind;
       var isHorizontal = this.isHorizontal,
           pageMode = this.pageMode,
+          scrollContainerDOM = this.scrollContainerDOM,
           rootTag = this.rootTag,
           wrapTag = this.wrapTag,
           wrapClass = this.wrapClass,
@@ -956,7 +975,7 @@
       return h(rootTag, {
         ref: 'root',
         on: {
-          '&scroll': !pageMode && this.onScroll
+          '&scroll': !pageMode && !scrollContainerDOM && this.onScroll
         }
       }, [// header slot
       header ? h(Slot, {
