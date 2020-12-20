@@ -90,6 +90,8 @@ const VirtualList = Vue.component('virtual-list', {
         passive: false
       })
     } else if (this.scrollContainerDOM) {
+      this.updateSelectorModeFront()
+
       this.scrollContainerDOM.addEventListener('scroll', this.onScroll, {
         passive: false
       })
@@ -206,6 +208,15 @@ const VirtualList = Vue.component('virtual-list', {
         const rect = root.getBoundingClientRect()
         const { defaultView } = root.ownerDocument
         const offsetFront = this.isHorizontal ? (rect.left + defaultView.pageXOffset) : (rect.top + defaultView.pageYOffset)
+        this.virtual.updateParam('slotHeaderSize', offsetFront)
+      }
+    },
+
+    updateSelectorModeFront () {
+      const { root } = this.$refs
+      if (root) {
+        const rect = root.getBoundingClientRect()
+        const offsetFront = this.isHorizontal ? (rect.left + this.scrollContainerDOM.pageXOffset) : (rect.top + this.scrollContainerDOM.pageYOffset)
         this.virtual.updateParam('slotHeaderSize', offsetFront)
       }
     },

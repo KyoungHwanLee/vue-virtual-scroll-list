@@ -719,6 +719,7 @@
           passive: false
         });
       } else if (this.scrollContainerDOM) {
+        this.updateSelectorModeFront();
         this.scrollContainerDOM.addEventListener('scroll', this.onScroll, {
           passive: false
         });
@@ -832,6 +833,15 @@
           var rect = root.getBoundingClientRect();
           var defaultView = root.ownerDocument.defaultView;
           var offsetFront = this.isHorizontal ? rect.left + defaultView.pageXOffset : rect.top + defaultView.pageYOffset;
+          this.virtual.updateParam('slotHeaderSize', offsetFront);
+        }
+      },
+      updateSelectorModeFront: function updateSelectorModeFront() {
+        var root = this.$refs.root;
+
+        if (root) {
+          var rect = root.getBoundingClientRect();
+          var offsetFront = this.isHorizontal ? rect.left + this.scrollContainerDOM.pageXOffset : rect.top + this.scrollContainerDOM.pageYOffset;
           this.virtual.updateParam('slotHeaderSize', offsetFront);
         }
       },
