@@ -213,12 +213,9 @@ const VirtualList = Vue.component('virtual-list', {
     },
 
     updateSelectorModeFront () {
-      const { root } = this.$refs
-      if (root) {
-        const rect = root.getBoundingClientRect()
-        const offsetFront = this.isHorizontal ? (rect.left + this.scrollContainerDOM.offsetLeft) : (rect.top + this.scrollContainerDOM.offsetTop)
-        this.virtual.updateParam('slotHeaderSize', offsetFront)
-      }
+      Virtual.root = this.$refs.root
+      Virtual.scrollContainerDOM = this.scrollContainerDOM
+      this.virtual.updateParam('slotHeaderSize', 0)
     },
 
     // reset all state back to initial

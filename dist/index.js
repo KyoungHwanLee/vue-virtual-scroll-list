@@ -141,12 +141,23 @@
       key: "isFront",
       value: function isFront() {
         return this.direction === DIRECTION_TYPE.FRONT;
+      }
+    }, {
+      key: "getRootTop",
+      value: function getRootTop() {
+        if (Virtual.root) {
+          var rect = Virtual.root.getBoundingClientRect();
+          var res = rect.top + Virtual.scrollContainerDOM.scrollTop;
+          return res;
+        }
+
+        return 0;
       } // return start index offset
 
     }, {
       key: "getOffset",
       value: function getOffset(start) {
-        return (start < 1 ? 0 : this.getIndexOffset(start)) + this.param.slotHeaderSize;
+        return (start < 1 ? 0 : this.getIndexOffset(start)) + this.param.slotHeaderSize + this.getRootTop();
       }
     }, {
       key: "updateParam",
@@ -265,7 +276,7 @@
       key: "getScrollOvers",
       value: function getScrollOvers() {
         // if slot header exist, we need subtract its size
-        var offset = this.offset - this.param.slotHeaderSize;
+        var offset = this.offset - (this.param.slotHeaderSize + this.getRootTop());
 
         if (offset <= 0) {
           return 0;
@@ -409,6 +420,8 @@
 
     return Virtual;
   }();
+  Virtual.root = null;
+  Virtual.scrollContainerDOM = null;
 
   /**
    * props declaration for default, item and slot component
@@ -837,13 +850,9 @@
         }
       },
       updateSelectorModeFront: function updateSelectorModeFront() {
-        var root = this.$refs.root;
-
-        if (root) {
-          var rect = root.getBoundingClientRect();
-          var offsetFront = this.isHorizontal ? rect.left + this.scrollContainerDOM.offsetLeft : rect.top + this.scrollContainerDOM.offsetTop;
-          this.virtual.updateParam('slotHeaderSize', offsetFront);
-        }
+        Virtual.root = this.$refs.root;
+        Virtual.scrollContainerDOM = this.scrollContainerDOM;
+        this.virtual.updateParam('slotHeaderSize', 0);
       },
       // reset all state back to initial
       reset: function reset() {

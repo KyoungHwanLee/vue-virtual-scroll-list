@@ -68,9 +68,18 @@ export default class Virtual {
     return this.direction === DIRECTION_TYPE.FRONT
   }
 
+  getRootTop () {
+    if (Virtual.root) {
+      const rect = Virtual.root.getBoundingClientRect()
+      const res = rect.top + Virtual.scrollContainerDOM.scrollTop
+      return res
+    }
+    return 0
+  }
+
   // return start index offset
   getOffset (start) {
-    return (start < 1 ? 0 : this.getIndexOffset(start)) + this.param.slotHeaderSize
+    return (start < 1 ? 0 : this.getIndexOffset(start)) + this.param.slotHeaderSize + this.getRootTop()
   }
 
   updateParam (key, value) {
@@ -179,7 +188,7 @@ export default class Virtual {
   // return the pass overs according to current scroll offset
   getScrollOvers () {
     // if slot header exist, we need subtract its size
-    const offset = this.offset - this.param.slotHeaderSize
+    const offset = this.offset - (this.param.slotHeaderSize + this.getRootTop())
     if (offset <= 0) {
       return 0
     }
@@ -311,3 +320,6 @@ export default class Virtual {
     return this.isFixedType() ? this.fixedSizeValue : (this.firstRangeAverageSize || this.param.estimateSize)
   }
 }
+
+Virtual.root = null
+Virtual.scrollContainerDOM = null
