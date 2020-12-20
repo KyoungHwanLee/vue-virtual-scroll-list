@@ -216,7 +216,7 @@ const VirtualList = Vue.component('virtual-list', {
       const { root } = this.$refs
       if (root) {
         const rect = root.getBoundingClientRect()
-        const offsetFront = this.isHorizontal ? (rect.left + this.scrollContainerDOM.pageXOffset) : (rect.top + this.scrollContainerDOM.pageYOffset)
+        const offsetFront = this.isHorizontal ? (rect.left + this.scrollContainerDOM.offsetLeft) : (rect.top + this.scrollContainerDOM.offsetTop)
         this.virtual.updateParam('slotHeaderSize', offsetFront)
       }
     },

@@ -841,7 +841,7 @@
 
         if (root) {
           var rect = root.getBoundingClientRect();
-          var offsetFront = this.isHorizontal ? rect.left + this.scrollContainerDOM.pageXOffset : rect.top + this.scrollContainerDOM.pageYOffset;
+          var offsetFront = this.isHorizontal ? rect.left + this.scrollContainerDOM.offsetLeft : rect.top + this.scrollContainerDOM.offsetTop;
           this.virtual.updateParam('slotHeaderSize', offsetFront);
         }
       },
