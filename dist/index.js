@@ -463,7 +463,7 @@
       "default": false
     },
     scrollContainerDOM: {
-      type: Element,
+      type: Object,
       "default": null
     },
     rootTag: {
